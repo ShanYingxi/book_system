@@ -2,7 +2,7 @@ from dotenv import load_dotenv
 import os
 import pymysql
 
-load_dotenv()  # 加载 .env 文件
+load_dotenv()
 
 def get_connection():
     return pymysql.connect(
