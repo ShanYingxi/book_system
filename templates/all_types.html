@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>所有图书分类</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <h2>📂 所有图书分类</h2>
+  <table>
+    <thead>
+      <tr><th>ID</th><th>分类名</th><th>描述</th></tr>
+    </thead>
+    <tbody id="typeTable"></tbody>
+  </table>
+
+  <script>
+    async function loadTypes() {
+      const res = await fetch('/book_types');
+      const data = await res.json();
+      const tbody = document.getElementById("typeTable");
+      tbody.innerHTML = "";
+      data.forEach(t => {
+        tbody.innerHTML += `<tr><td>${t.type_id}</td><td>${t.type_name}</td><td>${t.description}</td></tr>`;
+      });
+    }
+
+    loadTypes();
+  </script>
+</body>
+</html>

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>按分类查看图书</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <h2>📚 查看某分类下图书</h2>
+  <input type="number" id="typeId" placeholder="请输入分类 ID" />
+  <button onclick="loadBooks()">查询</button>
+  <table>
+    <thead>
+      <tr><th>书名</th><th>作者</th><th>价格</th><th>状态</th></tr>
+    </thead>
+    <tbody id="bookTable"></tbody>
+  </table>
+
+  <script>
+    async function loadBooks() {
+      const typeId = document.getElementById("typeId").value;
+      const res = await fetch(`/books/type/${typeId}`);
+      const data = await res.json();
+      const tbody = document.getElementById("bookTable");
+      tbody.innerHTML = "";
+      data.forEach(book => {
+        tbody.innerHTML += `
+          <tr>
+            <td>${book.title}</td>
+            <td>${book.author}</td>
+            <td>${book.price}</td>
+            <td>${book.status}</td>
+          </tr>`;
+      });
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>修改图书标题与分类</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <nav style="margin-bottom: 20px;">
+    <a href="/">📚 图书列表</a> |
+    <a href="/register">📝 注册</a> |
+    <a href="/add_book">📖 发布图书</a> |
+    <a href="/orders">📦 我的订单</a> |
+    <a href="/book_types_view">📂 图书分类</a> |
+    <a href="/update_user">⚙️ 修改用户</a> |
+    <a href="/delete_user">🗑️ 删除用户</a>
+  </nav>
+
+  <h2>修改图书标题与分类</h2>
+  <input type="number" id="bookId" placeholder="图书 ID" />
+  <input type="number" id="userId" placeholder="卖家 ID" />
+  <input type="text" id="title" placeholder="新书名" />
+  <input type="number" id="typeId" placeholder="分类 ID" />
+  <button onclick="updateBook()">提交</button>
+  <div id="msg" class="msg"></div>
+
+  <script>
+    async function updateBook() {
+      const res = await fetch(`/books/${bookId.value}/basic`, {
+        method: 'PUT',
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          user_id: Number(userId.value),
+          title: title.value,
+          type_id: Number(typeId.value)
+        })
+      });
+      const result = await res.json();
+      msg.textContent = result.message || result.error;
+    }
+  </script>
+</body>
+</html>

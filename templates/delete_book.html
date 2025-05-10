@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>删除图书</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <h2>🗑️ 删除图书</h2>
+  <input type="number" id="bookId" placeholder="图书 ID" />
+  <input type="number" id="userId" placeholder="管理员 user_id" />
+  <button onclick="deleteBook()">删除图书</button>
+  <div id="msg" class="msg"></div>
+
+  <script>
+    async function deleteBook() {
+      const bookId = document.getElementById("bookId").value;
+      const userId = document.getElementById("userId").value;
+
+      const res = await fetch(`/books/${bookId}`, {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ user_id: userId })
+      });
+
+      const result = await res.json();
+      document.getElementById("msg").textContent = result.message || result.error;
+    }
+  </script>
+</body>
+</html>

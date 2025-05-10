@@ -1,0 +1,24 @@
+# Python 缓存
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Flask 环境配置文件
+.env
+
+# 数据库文件（如果用 SQLite）
+*.db
+
+# VS Code 配置文件夹
+.vscode/
+
+# 其他编辑器或系统文件
+*.log
+*.swp
+.DS_Store
+Thumbs.db
+
+# pyinstaller 构建相关（如果有）
+build/
+dist/
+*.spec

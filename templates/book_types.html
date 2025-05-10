@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>图书分类</title>
+  <style>
+    body { font-family: sans-serif; padding: 30px; }
+    table { border-collapse: collapse; width: 100%; }
+    th, td { border: 1px solid #ccc; padding: 8px; }
+  </style>
+</head>
+<nav style="margin-bottom: 20px;">
+    <a href="/">📚 图书列表</a> |
+    <a href="/register">📝 注册</a> |
+    <a href="/add_book">📖 发布图书</a> |
+    <a href="/orders">📦 我的订单</a> |
+    <a href="/book_types_view">📂 图书分类</a> |
+    <a href="/update_user">⚙️ 修改用户</a> |
+    <a href="/delete_user">🗑️ 删除用户</a>
+  </nav>
+  
+<body>
+  <h2>图书分类列表</h2>
+  <table>
+    <thead>
+      <tr><th>ID</th><th>分类名</th><th>描述</th><th>操作</th></tr>
+    </thead>
+    <tbody id="typeTable"></tbody>
+  </table>
+
+  <script>
+    async function loadTypes() {
+      const res = await fetch('/book_types');
+      const types = await res.json();
+      const tbody = document.getElementById("typeTable");
+      tbody.innerHTML = "";
+      types.forEach(t => {
+        tbody.innerHTML += `
+          <tr>
+            <td>${t.type_id}</td>
+            <td>${t.type_name}</td>
+            <td>${t.description}</td>
+            <td><button onclick="deleteType(${t.type_id})">删除</button></td>
+          </tr>`;
+      });
+    }
+
+    async function deleteType(typeId) {
+      const userId = prompt("请输入管理员 user_id");
+      const res = await fetch(`/book_types/${typeId}`, {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ user_id: userId })
+      });
+      const result = await res.json();
+      alert(result.message || result.error);
+      loadTypes();
+    }
+
+    loadTypes();
+  </script>
+</body>
+</html>

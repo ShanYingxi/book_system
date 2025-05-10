@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>我的订单</title>
+  <style>
+    body { font-family: sans-serif; padding: 30px; }
+    h2 { margin-bottom: 10px; }
+    table { border-collapse: collapse; width: 100%; }
+    th, td { border: 1px solid #ddd; padding: 8px; }
+  </style>
+</head>
+<nav style="margin-bottom: 20px;">
+    <a href="/">📚 图书列表</a> |
+    <a href="/register">📝 注册</a> |
+    <a href="/add_book">📖 发布图书</a> |
+    <a href="/orders">📦 我的订单</a> |
+    <a href="/book_types_view">📂 图书分类</a> |
+    <a href="/update_user">⚙️ 修改用户</a> |
+    <a href="/delete_user">🗑️ 删除用户</a>
+  </nav>
+  
+<body>
+  <h2>查看订单</h2>
+  <input type="number" id="userId" placeholder="用户ID">
+  <select id="role">
+    <option value="buyer">我是买家</option>
+    <option value="seller">我是卖家</option>
+  </select>
+  <button onclick="loadOrders()">加载订单</button>
+  <br><br>
+  <table id="orderTable">
+    <thead>
+      <tr><th>图书</th><th>时间</th><th>状态</th><th>对方用户</th><th>价格</th><th>操作</th></tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+
+  <script>
+    async function loadOrders() {
+      const uid = document.getElementById("userId").value;
+      const role = document.getElementById("role").value;
+      const url = role === 'buyer' ? `/orders/user/${uid}` : `/orders/seller/${uid}`;
+
+      const res = await fetch(url);
+      const data = await res.json();
+
+      const tbody = document.querySelector("#orderTable tbody");
+      tbody.innerHTML = "";
+      data.forEach(order => {
+        tbody.innerHTML += `
+          <tr>
+            <td>${order.book_title}</td>
+            <td>${order.order_time}</td>
+            <td>${order.status}</td>
+            <td>${role === 'buyer' ? order.seller_name : order.buyer_name || '未知'}</td>
+            <td>${order.price}</td>
+            <td><button onclick="deleteOrder(${order.order_id})">删除</button></td>
+          </tr>
+        `;
+      });
+    }
+
+    async function deleteOrder(orderId) {
+      const userId = prompt("请输入管理员 user_id");
+      const res = await fetch(`/orders/${orderId}`, {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ user_id: userId })
+      });
+      const result = await res.json();
+      alert(result.message || result.error);
+      loadOrders();
+    }
+  </script>
+</body>
+</html>

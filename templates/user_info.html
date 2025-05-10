@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>用户信息查询</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <h2>🔍 查询用户信息</h2>
+  <input type="number" id="userId" placeholder="请输入用户 ID" />
+  <button onclick="loadUser()">查询</button>
+  <div id="info" class="msg" style="margin-top: 20px;"></div>
+
+  <script>
+    async function loadUser() {
+      const userId = document.getElementById("userId").value;
+      const res = await fetch(`/users/${userId}`);
+      const data = await res.json();
+      const info = document.getElementById("info");
+      if (data.error) {
+        info.textContent = data.error;
+      } else {
+        info.innerHTML = `
+          <strong>用户名：</strong> ${data.username}<br>
+          <strong>邮箱：</strong> ${data.email}<br>
+          <strong>电话：</strong> ${data.phone}<br>
+          <strong>角色：</strong> ${data.role}
+        `;
+      }
+    }
+  </script>
+</body>
+</html>

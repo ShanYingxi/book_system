@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>图书列表</title>
+    <style>
+        body { font-family: sans-serif; padding: 20px; }
+        h1 { color: #333; }
+        table { border-collapse: collapse; width: 100%; }
+        th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+    </style>
+</head>
+<nav style="margin-bottom: 20px;">
+    <a href="/">📚 图书列表</a> |
+    <a href="/register">📝 注册</a> |
+    <a href="/add_book">📖 发布图书</a> |
+    <a href="/orders">📦 我的订单</a> |
+    <a href="/book_types_view">📂 图书分类</a> |
+    <a href="/update_user">⚙️ 修改用户</a> |
+    <a href="/delete_user">🗑️ 删除用户</a>
+  </nav>
+  
+<body>
+    <h1>📚 图书列表</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>书名</th>
+                <th>作者</th>
+                <th>价格</th>
+                <th>状态</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for book in books %}
+            <tr>
+                <td>{{ book.title }}</td>
+                <td>{{ book.author }}</td>
+                <td>{{ book.price }} 元</td>
+                <td>{{ book.status }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>
