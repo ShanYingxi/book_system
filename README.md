@@ -12,7 +12,8 @@ book_system/
 ├── templates/             # 所有 HTML 页面
 ├── .env.example           # 环境变量模板（请复制为 .env 使用）
 └── .gitignore             # 忽略不上传的文件（如 .env、缓存等）
-```
+├── requirements.txt # 依赖库列表
+└── book_system_schema.sql # 数据库建表语句（MySQL）
 
 ## ⚙️ 本地运行方式
 
@@ -37,8 +38,14 @@ python app.py
 
 访问地址：[http://localhost:5000](http://localhost:5000)
 
-## 👤 作者
+🗄️ 数据库说明
+使用 MySQL
 
-南开大学 信息安全专业  
-作者：ShanYingxi  
-项目用途：数据库课程工程实践作业
+数据库名建议为 book_market
+
+建表语句位于 book_system_schema.sql
+
+快速执行建表语句：
+CREATE DATABASE book_market DEFAULT CHARSET utf8mb4;
+USE book_market;
+-- 执行 book_system_schema.sql 中的 SQL
